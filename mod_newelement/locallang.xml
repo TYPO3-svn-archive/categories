@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;txcategoriesnewelement&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">New record</label>
+			<label index="newrecordincategory">New record in category</label>
+			<label index="createin">Record will be created in:</label>	
+			<label index="change">change</label>	
+		</languageKey>
+	</data>
+</T3locallang>

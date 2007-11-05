@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;user_txktcdkM2&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">Category information</label>
+			<label index="about_info_module"><![CDATA[About the Categories » Info module]]></label>
+			<label index="go_to_list_module">Switch to list module</label>
+			<label index="click_on_a_category_in_the_tree">Please click a category title in the category tree</label>
+			<label index="no_submodules_available">There are currently no submodules available. Please contact your system administrator if you think this is a bug.</label>
+		</languageKey>
+	</data>
+</T3locallang>

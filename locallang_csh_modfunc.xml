@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>CSH for Categories Functions module</description>
+		<type>CSH</type>
+		<csh_table>_MOD_txcategoriesMain_txcategoriesFunc</csh_table>
+		<fileId>EXT:categories/locallang_csh_importmodule.xml</fileId>
+		<labelContext type="array">
+			<label index=".alttitle"></label>
+		</labelContext>		
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index=".alttitle">The functions module (categories)</label>		
+			<label index="aboutfuncmodule.alttitle">About</label>
+			<label index="aboutfuncmodule.description"><![CDATA[
+The Functions module contains functions to manipulate the category tree.
+
+<strong>For developers:</strong>
+The Functions module serves as a container module for other modules. You are encouraged to add your own submodules.
+
+		]]></label>
+		</languageKey>
+	</data>
+	<orig_hash type="array">
+
+	</orig_hash>	
+</T3locallang>

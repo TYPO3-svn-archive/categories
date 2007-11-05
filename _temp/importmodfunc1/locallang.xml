@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">OIO Subject Scheme</label>
+			<label index="label.url">Path to XML-file: </label>
+			<label index="label.startingpoint">Startingpoint: </label>			
+			<label index="label.submit">Import!</label>	
+			<label index="backlink">« Back</label>	
+		</languageKey>
+	</data>
+	<orig_hash type="array">
+	</orig_hash>
+	<orig_text type="array">
+	</orig_text>
+</T3locallang>

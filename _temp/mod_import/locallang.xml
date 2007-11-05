@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;user_txktcdkM2&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">Categori Import</label>	
+			<label index="about_import_module">About the import module</label>			
+			<label index="about_import_module_header">About the import module</label>
+			<label index="about_import_module_body">
+			###ICON1### This module is used to import and update category data. This could e.g. come in handy if you would like to use the categories from a public taxonomy (such as the one provided by dmoz.org) instead of creating your own categories.
+			
+			3rd party taxonomy vendors are invited to hook into this module.
+			</label>
+			<label index="no_importfunctions_installed">
+			###ICON2### There are currently no import functions installed.
+			</label>	
+			<label index="select_submodule">Please select an import wizard from the above menu:
+			
+			</label>
+			
+			<label index="select_import_function_header">Select import wizard</label>
+			<label index="select_wizard">Select wizard:</label>
+		</languageKey>
+	</data>
+</T3locallang>

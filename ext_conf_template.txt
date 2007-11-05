@@ -1,0 +1,28 @@
+  # cat=basic; type=boolean; label=Hide Category sysfolder: This makes the sysfolder containing category records invisible in the backend.
+hide_category_sysfolder=1
+
+  # cat=basic; type=boolean; label=Enable, pages: Display the category selector when editing pages in the backend.
+#enable_category_selector_pages=1
+
+  # cat=basic; type=boolean; label=Enable, content elements: Display the category selector when editing content elements(tt_content) in the backend.
+#enable_category_selector_tt_content=0
+
+  # cat=basic; type=boolean; label=Enable, news records: Display the category selector when editing news records (tt_news) in the backend.
+#enable_category_selector_tt_news=0
+
+  # cat=basic; type=boolean; label=Enable warnings: By enabling this, backend users are warned if they forget to select at least one category for the record they are editing.
+#enable_warnings=1
+
+  # cat=basic; type=boolean; label=Disable warnings, admininistrator: By enabling this, warnings are disabled for administrators.
+#disable_warnings_admin=0
+
+  # cat=basic; type=boolean; label=Disallow selecting parents: By enabling this, backend users can only tag records with child categories (categories that does not contain subcategories).
+#disable_select_parents=0
+
+  # cat=basic; type=boolean; label=Allow multiple parents: By enabling this, categories are allowed to have multiple parents (poly-hierarchy). 
+#enable_multiple_parents=0
+
+  # cat=basic; type=boolean; label=Disable l18n: By enabling this, the language selector is disabled.
+#disable_l18n=1
+
+
