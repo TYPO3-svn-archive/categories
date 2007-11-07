@@ -26,6 +26,74 @@ class tx_categories_recordlist extends localRecordList{
 		
 	}
 	
+	
+	/**
+	 * Initializes the list generation
+	 *
+	 * @param	integer		Page id for which the list is rendered. Must be >= 0
+	 * @param	string		Tablename - if extended mode where only one table is listed at a time.
+	 * @param	integer		Browsing pointer.
+	 * @param	string		Search word, if any
+	 * @param	integer		Number of levels to search down the page tree
+	 * @param	integer		Limit of records to be listed.
+	 * @return	void
+	 */
+	function start($id,$table,$pointer,$search="",$levels="",$showLimit=0)	{
+		global $TCA;
+
+			// Setting internal variables:
+		$this->id=intval($id);					// sets the parent id
+		if ($TCA[$table])	$this->table=$table;		// Setting single table mode, if table exists:
+		$this->firstElementNumber=$pointer;
+		$this->searchString=trim($search);
+		$this->searchLevels=trim($levels);
+		$this->showLimit=t3lib_div::intInRange($showLimit,0,10000);
+
+			// Setting GPvars:
+		$this->csvOutput = t3lib_div::_GP('csv') ? TRUE : FALSE;
+		$this->sortField = t3lib_div::_GP('sortField');
+		$this->sortRev = t3lib_div::_GP('sortRev');
+		$this->displayFields = t3lib_div::_GP('displayFields');
+		$this->duplicateField = t3lib_div::_GP('duplicateField');
+
+		if (t3lib_div::_GP('justLocalized'))	{
+			$this->localizationRedirect(t3lib_div::_GP('justLocalized'));
+		}
+
+			// If thumbnails are disabled, set the "notfound" icon as default:
+		if (!$GLOBALS['TYPO3_CONF_VARS']['GFX']['thumbnails'])	{
+			$this->thumbScript='gfx/notfound_thumb.gif';
+		}
+
+			// Init dynamic vars:
+		$this->counter=0;
+		$this->JScode='';
+		$this->HTMLcode='';
+
+			// Set select levels:
+		$sL=intval($this->searchLevels);
+		$this->perms_clause = $GLOBALS['BE_USER']->getPagePermsClause(1);
+
+			// this will hide records from display - it has nothing todo with user rights!!
+		//if ($pidList = $GLOBALS['BE_USER']->getTSConfigVal('options.hideRecords.pages')) {
+		//	if ($pidList = $GLOBALS['TYPO3_DB']->cleanIntList($pidList)) {
+		//		$this->perms_clause .= ' AND pages.uid NOT IN ('.$pidList.')';
+		//	}
+		//}
+
+		if ($sL>0)	{
+			$tree = $this->getTreeObject($id,$sL,$this->perms_clause);
+			$this->pidSelect = 'pid IN ('.implode(',',$tree->ids).')';
+		} else {
+			$this->pidSelect = 'pid='.intval($id);
+		}
+
+			// Initialize languages:
+		if ($this->localizationView)	{
+			$this->initializeLanguages();
+		}
+	}	
+	
 
 	/**
 	 * Writes the top of the full listing
@@ -196,6 +264,7 @@ class tx_categories_recordlist extends localRecordList{
 		$tx_categories_tca = array($this->parentTable => $TCA[$this->parentTable]);
 		$tmpTCA = array_merge($tx_categories_tca,$TCA);
 		
+		
 			// Traverse the TCA table array:			
 		reset($tmpTCA);
 		while (list($tableName)=each($tmpTCA))	{
@@ -208,6 +277,7 @@ class tx_categories_recordlist extends localRecordList{
 				tx_categories_div::isTableAllowedForCategorization($tableName)
 			){		// Checks that we see only permitted/requested tables:
 
+				
 					// Load full table definitions:
 				t3lib_div::loadTCA($tableName);
 
@@ -249,20 +319,36 @@ class tx_categories_recordlist extends localRecordList{
 				$this->pidSelect = '';
 				
 				// Finally, render the list:
+				
+				
+				
 				$this->HTMLcode.=$this->getTable($tableName, $this->id, implode(',',$fields));
 
 			}
 		}
 	}
 	
-	
+	/**
+	 * Returns an SQL JOIN statement that checks if the BE-user has access to record
+	 *
+	 * @param	string		$table: tablename
+	 * @return	string		SQL JOIN statement
+	 */
 	function getPagesJoinStmt($table){
 
 		if($this->perms_clause && $table != 'pages'){
 			return ' INNER JOIN pages p ON p.uid='.$table.'.pid AND '.str_replace('pages.','p.',$this->perms_clause); 
 		}
+		
 	}
 	
+	/**
+	 * Returns an SQL JOIN statement which filters out records that are not in the current category
+	 *
+	 * @param	string		$table: tablename
+	 * @param	integer		$id: category id
+	 * @return	string		SQL JOIN statement
+	 */
 	function getCategoryJoinStmt($table,$id){
 		
 		if(!$this->searchLevels){ //no need to waste more time here
@@ -462,7 +548,7 @@ class tx_categories_recordlist extends localRecordList{
 			// Create the SQL query for selecting the elements in the listing:
 		$queryParts = $this->makeQueryArray($table, $id,$addWhere,$selFieldList);	// (API function from class.db_list.inc)
 		
-		
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;			
 		
 		$this->setTotalItems($queryParts);		// Finding the total amount of records on the page (API function from class.db_list.inc)
 
@@ -471,11 +557,12 @@ class tx_categories_recordlist extends localRecordList{
 		$dbCount = 0;
 		$out = '';
 		
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;	
 
 			// If the count query returned any number of records, we perform the real query, selecting records.
 		if ($this->totalItems)	{
 			$result = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
+			
+
 			
 			$dbCount = $GLOBALS['TYPO3_DB']->sql_num_rows($result);
 		}
@@ -660,8 +747,6 @@ class tx_categories_recordlist extends localRecordList{
 			// Init:
 		$theData = Array();
 		
-		
-		//debug($this->fieldArray);
 
 			// Traverse the fields:
 		foreach($this->fieldArray as $fCol)	{
