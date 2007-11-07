@@ -211,28 +211,31 @@ class tx_categories_cm {
 	
 	
 	
+	
 	function deleteUrl($table,$uid,$setRedirect=1){
-		$rU = $this->backRef->PH_backPath.PATH_txcategories_rel.'tce_categories.php?'.
+
+		$rU = PATH_txcategories_rel.'tce_categories.php?'.
 			($setRedirect ? 'redirect='.rawurlencode(t3lib_div::linkThisScript(array('CB'=>''))) : '').
 			'&vC='.$GLOBALS['BE_USER']->veriCode().
 			'&prErr=1&uPT=1'.
-			'&data['.$table.']['.$uid.'][*]=-'.$this->category;
+			'&data['.$table.']['.$uid.'][*]=-'.$this->category;			
+			
+
 		return $rU;		
 	}	
 	
 	
 	function pasteUrl($table,$uid,$setRedirect=1){
 
-		$rU = $this->backRef->PH_backPath.PATH_txcategories_rel.'tce_categories.php?'.
+		$rU = PATH_txcategories_rel.'tce_categories.php?'.
 			($setRedirect ? 'redirect='.rawurlencode(t3lib_div::linkThisScript(array('CB'=>''))) : '').
 			'&vC='.$GLOBALS['BE_USER']->veriCode().
 			'&prErr=1&uPT=1'.
 			'&CB[paste]='.rawurlencode($table.'|'.$uid).
-			'&CB[pad]='.$this->clipboardObj->current;
+			'&CB[pad]='.$this->clipboardObj->current;		
 			
 		return $rU;		
 	}
-	
 	
 	
 	
