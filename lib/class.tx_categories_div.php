@@ -320,10 +320,9 @@ class tx_categories_div{
 		
 		global $TCA;
 		
-		//if the table is the category table, we return immediately
+		//if the table is the category table, we return immediately. 
 		if($table == $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['table']) return TRUE;
 		
-
 		if($TCA[$table]['ctrl']['EXT']['categories']['exclude']) return FALSE;
 
 		return TRUE;		
@@ -340,8 +339,9 @@ class tx_categories_div{
 		
 		return '*';
 		
-		//future:
+		//TODO:
 		//return t3lib_div::shortMD5('tx_categories'.$table);
+		//requires change in t3lib_TCEmain
 	}
 	
 	
