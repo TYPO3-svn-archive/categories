@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007 Mads Brunn (mads@typoconsult.dk)
+*  (c) 2007 Mads Brunn (mads@brunn.dk)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -49,7 +49,7 @@ include('conf.php');
 require($BACK_PATH.'init.php');
 require($BACK_PATH.'template.php');
 $LANG->includeLLFile('EXT:lang/locallang_misc.xml');
-$LANG->includeLLFile('EXT:categories/mod_positionmap/locallang.xml');
+$LANG->includeLLFile('EXT:categories/mod_list/locallang.xml');
 require_once(PATH_t3lib.'class.t3lib_scbase.php');
 require_once(PATH_txcategories.'lib/class.tx_categories_positionmap.php');
 
@@ -96,10 +96,13 @@ class tx_categories_modulepositionmap extends t3lib_SCbase{
 		$this->R_URI=$this->returnUrl;
 		$this->catinfo = tx_categories_div::getCategoryInfo($this->id);
 		
+		
+		debug($this->returnUrl);
+		
 		$this->positionmap = t3lib_div::makeInstance('tx_categories_positionmap');
 		$this->positionmap->init();
 		$this->positionmap->treeName = 'txcategoriespositionmap';
-		$this->positionmap->thisScript = 'index.php';
+		$this->positionmap->thisScript = 'newelement_positionmap.php';
 		$this->positionmap->createInTable = t3lib_div::_GP('table');
 		$this->positionmap->categoryId = $this->id;
 		$this->positionmap->returnUrl = $this->returnUrl;
@@ -143,8 +146,8 @@ class tx_categories_modulepositionmap extends t3lib_SCbase{
 			return;
 		}
 			// Start page:
-		$this->content = $this->doc->startPage('TYPO3 Page Tree');
-		$this->content .= $this->doc->header($LANG->getLL('title'));
+		$this->content = $this->doc->startPage('newrecordtitle');
+		$this->content .= $this->doc->header($LANG->getLL('newrecordincategory'));
 		//debug($this->positionmap);
 		$this->content .= '<p><strong>'.$LANG->getLL('insertnewrecordin').'</strong></p><br />';
 

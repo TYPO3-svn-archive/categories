@@ -46,7 +46,7 @@ include('conf.php');
 require($BACK_PATH.'init.php');
 require($BACK_PATH.'template.php');
 $LANG->includeLLFile('EXT:lang/locallang_misc.xml');
-$LANG->includeLLFile('EXT:categories/mod_newelement/locallang.xml');
+$LANG->includeLLFile('EXT:categories/mod_list/locallang.xml');
 require_once(PATH_t3lib.'class.t3lib_scbase.php');
 
 
@@ -168,7 +168,7 @@ class tx_categories_newelement extends t3lib_SCbase{
 		$this->doc->JScode='';
 
 			// Creating content
-		$this->content = $this->doc->startPage($LANG->getLL('title'));
+		$this->content = $this->doc->startPage($LANG->getLL('newrecordtitle'));
 		$this->content .= $this->doc->header($LANG->getLL('newrecordincategory'));
 		$this->content .= $this->doc->getHeader('tx_categories',$this->catinfo,$this->catinfo['_thePath'],1).'<br />';
 		$this->content .= $this->regularNew();
@@ -378,7 +378,7 @@ class tx_categories_newelement extends t3lib_SCbase{
 
 	function linkToPositionmap($item,$table,$conf){
 		global $LANG;
-		return '<a href="'.htmlspecialchars($this->doc->backPath . PATH_txcategories_rel . 'mod_positionmap/index.php?id='.$this->id.'&table='.$table.'&returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI'))).'">'.$item.'</a>';
+		return '<a href="'.htmlspecialchars($this->doc->backPath . PATH_txcategories_rel . 'mod_list/newelement_positionmap.php?id='.$this->id.'&table='.$table.'&returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI'))).'">'.$item.'</a>';
 	}
 	
 
@@ -427,9 +427,9 @@ class tx_categories_newelement extends t3lib_SCbase{
 	function handleIncomingParams(){
 		
 		if($this->returnEditConf && $this->returnUrl){ //we are on return from typo3/alt_doc.php
-			
-			header('Location:'.t3lib_div::locationHeaderUrl($this->returnUrl));
-			exit;
+			debug($this->returnUrl);
+			//header('Location:'.t3lib_div::locationHeaderUrl($this->returnUrl));
+			//exit;
 			
 		}
 
@@ -452,8 +452,8 @@ class tx_categories_newelement extends t3lib_SCbase{
 }
 
 // Include extension?
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_newelement/index.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_newelement/index.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_list/newelement_wizard.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_list/newelement_wizard.php']);
 }
 
 
