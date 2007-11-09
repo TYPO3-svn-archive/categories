@@ -10,7 +10,12 @@
 			<label index="header_element_wizard">New record</label>
 			<label index="insertrecordsintothiscategory">Insert records from clipboard into this category</label>
 			<label index="confirmdeletefromcategory">Remove this record from category '%s'</label>
-			<label index="removefromcategory">Remove from category</label>			
+			<label index="removefromcategory">Remove from category</label>	
+			<label index="newrecordtitle">New record</label>
+			<label index="insertnewrecordin">Insert new record in:</label>	
+			<label index="newrecordincategory">New record in category</label>
+			<label index="createin">Record will be created in:</label>	
+			<label index="change">change</label>				
 		</languageKey>
 	</data>
 </T3locallang>

@@ -1,23 +1,11 @@
 <?php
 
-//if(substr(dirname(dirname(dirname(__FILE__))),-9) == 'typo3conf' ){	//locally installed
-//	define('TYPO3_MOD_PATH', '../typo3conf/ext/categories/');
-//	$BACK_PATH='../../../typo3/';
-//} elseif (substr(dirname(dirname(__FILE__)),-6) == 'sysext' ){		//system extension
-//	define('TYPO3_MOD_PATH', '../typo3conf/ext/categories/');
-//	$BACK_PATH='../../../typo3/';	
-//} else {
-//	define('TYPO3_MOD_PATH', '../typo3conf/ext/categories/');
-//	$BACK_PATH='../../../typo3/';	
-//}
-
 unset($MCONF);
 require('conf.php');
 include ($BACK_PATH.'init.php');
 include ($BACK_PATH.'template.php');
 
 require_once(PATH_txcategories.'lib/class.tx_categories_treeview.php');
-
 
 class tx_categories_treeframe{
 	
@@ -152,8 +140,8 @@ class tx_categories_treeframe{
 
 
 // Include extension?
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_inlinetree/class.tx_categories_inlinetreeframe.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_inlinetree/class.tx_categories_inlinetreeframe.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_browsecat/index.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_browsecat/index.php']);
 }
 
 	// Make instance:

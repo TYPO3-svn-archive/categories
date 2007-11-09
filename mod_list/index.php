@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007  <>
+*  (c) 2007  Mads Brunn <mads@brunn.dk>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -206,8 +206,9 @@ class  tx_categories_list extends t3lib_SCbase {
 				if (isset($cmd['pages']))	{
 					t3lib_BEfunc::getSetUpdateSignal('updatePageTree');
 				}
-
+				
 				$tce->printLogErrorMessages(t3lib_div::getIndpEnv('REQUEST_URI'));
+				
 			}
 		}
 
@@ -340,7 +341,7 @@ class  tx_categories_list extends t3lib_SCbase {
 			 			Link for creating a new record:
 			 		-->
 			 		<div id="typo3-newRecordLink">
-			 		<a href="'.htmlspecialchars($this->doc->backPath . PATH_txcategories_rel . 'mod_newelement/index.php?id='.$this->id.'&returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI'))).'">'.
+			 		<a href="'.htmlspecialchars($this->doc->backPath . PATH_txcategories_rel . 'mod_list/newelement_wizard.php?id='.$this->id.'&returnUrl='.rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI'))).'">'.
 			 					'<img'.t3lib_iconWorks::skinImg($this->doc->backPath,'gfx/new_el.gif','width="11" height="12"').' alt="" />'.
 			 					$LANG->getLL('newRecordGeneral',1).
 			 					'</a>

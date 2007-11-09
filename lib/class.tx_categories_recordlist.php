@@ -797,6 +797,7 @@ class tx_categories_recordlist extends localRecordList{
 							// The "Delete marked" link:
 						$cells[]=$this->linkClipboardHeaderIcon('<img'.t3lib_iconWorks::skinImg($this->backPath,'gfx/garbage.gif','width="11" height="12"').' title="'.$LANG->getLL('clip_deleteMarked',1).'" alt="" />',$table,'delete',sprintf($LANG->getLL('clip_deleteMarkedWarning'),$LANG->sL($TCA[$table]['ctrl']['title'])));
 
+							// The "Remove marked from category" link:
 						$cells[] = '<img'.t3lib_iconWorks::skinImg($this->backPath.PATH_txcategories_rel,'gfx/delref.gif','width="11" height="12"').' title="'.$LANG->getLL('removemarkedfromcategory',1).'" alt="" />';
 						
 							// The "Select all" link:
