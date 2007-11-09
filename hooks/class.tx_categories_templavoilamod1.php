@@ -42,4 +42,8 @@ class tx_categories_templavoilamod1{
 	}
 }
 
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/hooks/class.tx_categories_templavoilamod1.php'])    {
+    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/hooks/class.tx_categories_templavoilamod1.php']);
+}
+
 ?>

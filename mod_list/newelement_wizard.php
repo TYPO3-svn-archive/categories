@@ -427,9 +427,9 @@ class tx_categories_newelement extends t3lib_SCbase{
 	function handleIncomingParams(){
 		
 		if($this->returnEditConf && $this->returnUrl){ //we are on return from typo3/alt_doc.php
-			debug($this->returnUrl);
-			//header('Location:'.t3lib_div::locationHeaderUrl($this->returnUrl));
-			//exit;
+			//debug($this->returnUrl);
+			header('Location:'.t3lib_div::locationHeaderUrl($this->returnUrl));
+			exit;
 			
 		}
 
@@ -438,10 +438,10 @@ class tx_categories_newelement extends t3lib_SCbase{
 	
 	function initHooks(){
 
-		if(is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['ext/categories/mod_newelement/index.php'])){
+		if(is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['ext/categories/mod_list/newelement_wizard.php'])){
 
-			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['ext/categories/mod_newelement/index.php'] as $classRef){
-
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['ext/categories/mod_list/newelement_wizard.php'] as $classRef){
+			
 				$this->hookObjectsArr[] = &t3lib_div::getUserObj($classRef);
 
 			}

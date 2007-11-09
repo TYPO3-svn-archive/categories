@@ -78,5 +78,5 @@ class tx_categories_perms{
 
 }
 
-
+//No XCLASS - this class is never instantiated
 ?>

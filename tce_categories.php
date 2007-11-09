@@ -54,7 +54,7 @@ require_once (PATH_txcategories.'lib/class.tx_categories_clipboard.php');
  * @package TYPO3
  * @subpackage core
  */
-class SC_tce_categories {
+class tce_categories {
 
 		// Internal, static: GPvar
 	var $flags;			// Array. Accepts options to be set in TCE object. Currently it supports "reverseOrder" (boolean).
@@ -252,8 +252,8 @@ class SC_tce_categories {
 }
 
 // Include extension?
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['typo3/tce_db.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['typo3/tce_db.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/tce_categories.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/tce_categories.php']);
 }
 
 
@@ -263,7 +263,7 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['typo3/tce_d
 
 
 // Make instance:
-$SOBE = t3lib_div::makeInstance('SC_tce_categories');
+$SOBE = t3lib_div::makeInstance('tce_categories');
 $SOBE->init();
 
 // Include files?

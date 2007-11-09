@@ -120,5 +120,5 @@ class tx_categories_befunc{
  
  
  
- 
+//no XCLASS - this class is never instantiated
 ?>

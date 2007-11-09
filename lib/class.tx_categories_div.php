@@ -347,7 +347,5 @@ class tx_categories_div{
 	
 }
 
-
-
-
+//no XCLASS - doesn't make sense as this class is never instantiated
 ?>

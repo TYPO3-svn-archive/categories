@@ -96,9 +96,6 @@ class tx_categories_modulepositionmap extends t3lib_SCbase{
 		$this->R_URI=$this->returnUrl;
 		$this->catinfo = tx_categories_div::getCategoryInfo($this->id);
 		
-		
-		debug($this->returnUrl);
-		
 		$this->positionmap = t3lib_div::makeInstance('tx_categories_positionmap');
 		$this->positionmap->init();
 		$this->positionmap->treeName = 'txcategoriespositionmap';
@@ -202,19 +199,10 @@ class tx_categories_modulepositionmap extends t3lib_SCbase{
 		
 		global $BACK_PATH,$TYPO3_CONF_VARS;
 		
-		
-		/**
-		 * TODO:
-		 * We need to cache the last used pid for a record so that the user will
-		 * not need to select the position of the record every time.
-		 */
-		
-		
 		if($table == 'tx_categories'){
 			$pid = tx_categories_div::getPid();
 		}
-
-		$cField = '*';	
+		$cField = tx_categories_div::getCategoryFieldName($table);
 		
 		$params = '&edit['.$table.']['.$pid.']=new'.
 			($table=='pages'
@@ -232,8 +220,8 @@ class tx_categories_modulepositionmap extends t3lib_SCbase{
 }
 
 // Include extension?
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_positionmap/index.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_positionmap/index.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_list/newelement_positionmap.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/categories/mod_list/newelement_positionmap.php']);
 }
 
 

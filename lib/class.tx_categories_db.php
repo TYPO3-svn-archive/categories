@@ -107,4 +107,5 @@ class tx_categories_db{
 	
 }
 
+//no XCLASS - this class is never instantiated
 ?>
