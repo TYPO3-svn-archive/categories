@@ -44,35 +44,11 @@ if (TYPO3_MODE=='BE') {
 		"path" => PATH_txcategories."lib/class.tx_categories_cm.php"
 	);
 	
-	//t3lib_extMgm::insertModuleFunction(
-	//	'txcategoriesMain_txcategoriesFunc',
-	//	'tx_categories_modfuncimport',
-	//	PATH_txcategories.'mod_func_import/class.tx_categories_modfuncimport.php',
-	//	'Import',
-	//	'function'
-	//);	
-
-	//t3lib_extMgm::insertModuleFunction(
-	//	'txcategoriesMain_txcategoriesImport',
-	//	'tx_categories_importmodfunc1',
-	//	t3lib_extMgm::extPath($_EXTKEY).'mod_import/importmodfunc1/class.tx_categories_importmodfunc1.php',
-	//	'LLL:EXT:categories/mod_import/importmodfunc1/locallang.xml:title',
-	//	'submodule'
-	//);	
-
-	//t3lib_extMgm::insertModuleFunction(
-	//	'txcategoriesMain_txcategoriesImport',		
-	//	'tx_categories_importmodfunc2',
-	//	t3lib_extMgm::extPath($_EXTKEY).'mod_import/importmodfunc2/class.tx_categories_importmodfunc2.php',
-	//	'LLL:EXT:categories/mod_import/importmodfunc2/locallang.xml:title',
-	//	'submodule'
-	//);
-	
-	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesList','EXT:categories/locallang_csh_modlist.xml');
-	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesInfo','EXT:categories/locallang_csh_modinfo.xml');
-	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesFunc','EXT:categories/locallang_csh_modfunc.xml');
-	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesImport','EXT:categories/locallang_csh_modimport.xml');
-	t3lib_extMgm::addLLrefForTCAdescr('tx_categories','EXT:categories/locallang_csh_tx_categories.xml');
+	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesList','EXT:categories/csh/locallang_csh_modlist.xml');
+	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesInfo','EXT:categories/csh/locallang_csh_modinfo.xml');
+	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesFunc','EXT:categories/csh/locallang_csh_modfunc.xml');
+	t3lib_extMgm::addLLrefForTCAdescr('_MOD_txcategoriesMain_txcategoriesImport','EXT:categories/csh/locallang_csh_modimport.xml');
+	t3lib_extMgm::addLLrefForTCAdescr('tx_categories','EXT:categories/csh/locallang_csh_tx_categories.xml');
 	
 }
 
