@@ -57,10 +57,12 @@ class tx_categories_navtree extends tx_categories_treebase {
 		
 			// Wrap icon in click-menu link.
 		if ($this->ext_IconMode){
-			return $this->wrapClickMenuOnIcon($icon,$TYPO3_CONF_VARS['EXTCONF']['categories']['table'],$row['uid'],1,'&bank='.$this->bank.'&category='.$parentId.'&tree=1');
-		} else {
-			return $icon;		
-		}
+			$icon = $this->wrapClickMenuOnIcon($icon,$TYPO3_CONF_VARS['EXTCONF']['categories']['table'],$row['uid'],1,'&bank='.$this->bank.'&category='.$parentId.'&tree=1');
+		} 
+		$icon = '<span class="dragIcon" id="dragIconID_'.$row['uid'].'">'.$icon.'</span>';
+		
+		return $icon;
+		
 	}	
 	
 	
@@ -72,9 +74,6 @@ class tx_categories_navtree extends tx_categories_treebase {
 	 * @return	string		Image tag.
 	 */
 	function getIcon($row,$parentId = 0) {
-		
-		
-		
 		
 		if ($this->iconPath && $this->iconName) {
 			$icon = '<img'.t3lib_iconWorks::skinImg('',$this->iconPath.$this->iconName,'width="18" height="16"').' alt=""'.($this->showDefaultTitleAttribute ? ' title="UID: '.$row['uid'].'"':'').' />';
@@ -235,7 +234,7 @@ class tx_categories_navtree extends tx_categories_treebase {
 	 * @param	string		? (internal)
 	 * @return	integer		The count of items on the level
 	 */
-	function getTree($uid, $depth=999, $blankLineCode='', $subCSSclass='',$path='_') {
+	function getTree($uid, $depth=999, $blankLineCode='', $subCSSclass='',$path='') {
 		
 		
 		//echo '['.$uid.']';

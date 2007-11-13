@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Categories',
-	'description' => 'This extension adds general categorization features to the framework of TYPO3.',
+	'description' => 'This extension adds general categorization features to the TYPO3 framework.',
 	'category' => 'misc',
 	'author' => 'Mads Brunn',
 	'author_email' => 'mads@typoconsult.dk',
@@ -20,6 +20,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'dependencies' => 'cms',
 	'conflicts' => '',
 	'priority' => '',
+	'TYPO3_version' => '4.1.0',
 	'module' => 'mod_main,mod_list,mod_func,mod_info,mod_import,mod_freevoc,mod_browsecat',
 	'state' => 'beta',
 	'internal' => '',

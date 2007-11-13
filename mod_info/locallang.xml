@@ -8,7 +8,7 @@
 		<languageKey index="default" type="array">
 			<label index="title">Category information</label>
 			<label index="about_info_module"><![CDATA[About the Categories » Info module]]></label>
-			<label index="go_to_list_module">Switch to list module</label>
+			<label index="go_to_list_module">Switch to Categories&gt;List module</label>
 			<label index="click_on_a_category_in_the_tree">Please click a category title in the category tree</label>
 			<label index="no_submodules_available">There are currently no submodules available. Please contact your system administrator if you think this is a bug.</label>
 		</languageKey>

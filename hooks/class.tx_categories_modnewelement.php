@@ -42,8 +42,6 @@ require_once(PATH_txcategories.'lib/class.tx_categories_befunc.php');
 
 class tx_categories_modnewelement{
 
-
-
 	/**
 	 * Hook used to redirect to templavoila's page module if we have created a new page
 	 */
@@ -66,19 +64,22 @@ class tx_categories_modnewelement{
 							&& tx_categories_befunc::userHasAccessToModule('web_txtemplavoilaM1')
 						){
 						
-							$retUrl = '/'.t3lib_extMgm::siteRelPath('templavoila').'mod1/index.php?id='.$id;
+							$retUrl = t3lib_extMgm::siteRelPath('templavoila').'mod1/index.php?id='.$id;
 							
 						} elseif(
 							t3lib_extMgm::isLoaded('cms')
 							&& tx_categories_befunc::userHasAccessToModule('web_layout')
 						){
 							//falling back to the traditional pagemodule
-							$retUrl = '/'.t3lib_extMgm::siteRelPath('cms').'layout/db_layout.php?id='.$id;
+							$retUrl = t3lib_extMgm::siteRelPath('cms').'layout/db_layout.php?id='.$id;
 							
 						}
 						
 						if(trim($retUrl)){
-							header('Location:' . t3lib_div::locationHeaderUrl($retUrl));
+
+							$absUrl = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$retUrl;
+							
+							header('Location:' . t3lib_div::locationHeaderUrl($absUrl));
 							exit;
 						}
 					}

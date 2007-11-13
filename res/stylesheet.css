@@ -21,3 +21,6 @@ BODY#ext-categories-mod-newelement-index-php A { text-decoration: none; }
 BODY#ext-categories-mod-newelement-index-php IMG.c-helpImg { margin-left: 20px; text-align: right; }
 BODY#ext-categories-mod-newelement-index-php DIV#typo3-newPageLink { margin-top: 20px; }
 BODY#ext-categories-mod-newelement-index-php  TABLE#typo3-newRecord TR TD { padding-right: 20px; }
+
+/* Category tree in TCE form */
+BODY#ext-categories-mod-browsecat-index-php {background-color: white}

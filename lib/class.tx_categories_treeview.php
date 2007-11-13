@@ -42,8 +42,6 @@ require_once(PATH_txcategories.'lib/class.tx_categories_treebase.php');
 
 class tx_categories_treeview extends tx_categories_treebase {
 
-
-	var $additionalParams = '';
 	
 	
 	/**

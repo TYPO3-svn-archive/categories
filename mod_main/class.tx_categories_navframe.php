@@ -60,9 +60,14 @@ class tx_categories_navframe{
 		if(!$this->ajax){
 			$CMparts=$this->doc->getContextMenuCode();
 			$this->doc->bodyTagAdditions = $CMparts[1];
-			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->backPath.PATH_txcategories_rel.'res/prototype.js"></script>';
-			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->backPath.PATH_txcategories_rel.'res/tree.js"></script>';
-	
+			
+			//As of TYPO3 version 4.2 prototype.js is automatically included in BE-scripts
+			if(!t3lib_div::compat_version('4.2')){
+				$this->doc->JScode .= '<script type="text/javascript" src="'.$this->backPath.'contrib/prototype/prototype.js"></script>';
+			}
+			
+			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->backPath.'tree.js"></script>';
+								
 			$hlClass = 'active';
 			
 			$this->doc->JScode .= $this->doc->wrapScriptTags(
@@ -74,7 +79,6 @@ class tx_categories_navframe{
 				DragDrop.changeURL = "'.$this->backPath.'alt_clickmenu.php";
 				DragDrop.backPath  = "'.t3lib_div::shortMD5(''.'|'.$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']).'";
 				DragDrop.table     = "'.$TYPO3_CONF_VARS['EXTCONF']['categories']['table'].'";
-				
 	
 				// Function, loading the list frame from navigation tree:
 				function jumpTo(id, linkObj, highlightID, bank, path)	{ //
@@ -85,6 +89,7 @@ class tx_categories_navframe{
 					else                   parent.list_frame.location.href=theUrl;
 	
 					'.($this->doHighlight ? '
+					//alert("highlightID="+highlightID+"\nbank="+bank+"\npath="+path);
 					//alert("id="+highlightID + "_" + bank + "_" + path);
 					Tree.highlightActiveItem("txcategoriesMain", highlightID + "_" + bank + "_" + path);' : '').'
 					'.(!$GLOBALS['CLIENT']['FORMSTYLE'] ? '' : 'if (linkObj) linkObj.blur(); ').'
@@ -106,7 +111,7 @@ class tx_categories_navframe{
 			
 			$this->doc->postCode .= t3lib_BEfunc::getSetUpdateSignal(); 
 			
-			
+/*
 			$this->doc->inDocStylesArray['tx_categories_navframe'] = '
 			
 				UL.tree { list-style: none; margin: 0 0 10px 0; padding: 0; }
@@ -123,7 +128,7 @@ class tx_categories_navframe{
 				#dragIcon { z-index: 1; position: absolute; visibility: hidden; filter: alpha(opacity=50); -moz-opacity:0.5; opacity:0.5; white-space: nowrap; }			
 			
 			';
-			
+*/
 
 		}			
 			

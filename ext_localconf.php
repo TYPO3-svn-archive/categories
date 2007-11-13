@@ -79,7 +79,7 @@ $TYPO3_CONF_VARS['EXTCONF']['categories']['rootname'] = 'LLL:EXT:categories/loca
 
 
 	//own hook in "new element" wizard (Categories>List)
-$TYPO3_CONF_VARS['EXTCONF']['categories']['ext/categories/mod_newelement/index.php']['pages'] = 'EXT:categories/hooks/class.tx_categories_modnewelement.php:tx_categories_modnewelement';
+$TYPO3_CONF_VARS['EXTCONF']['categories']['ext/categories/mod_list/newelement_wizard.php']['pages'] = 'EXT:categories/hooks/class.tx_categories_modnewelement.php:tx_categories_modnewelement';
 
 
 

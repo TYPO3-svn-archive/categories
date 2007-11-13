@@ -68,38 +68,19 @@ class tx_categories_treeframe{
 			$params['rootIds'] = $this->rootIds;
 		}
 		$getparams = t3lib_div::implodeArrayForUrl('',$params,'',1);
+		$this->treeObject->additionalParams = $getparams;
 	
 		//setting some javascript and css if this is not an ajax call
 		if(!$this->ajax){
-			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.PATH_txcategories_rel.'res/prototype.js"></script>';
-			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.PATH_txcategories_rel.'res/tree.js"></script>';
-	
-			$this->doc->JScode .= $this->doc->wrapScriptTags(
-				($this->currentSubScript?'top.currentSubScript=unescape("'.rawurlencode($this->currentSubScript).'");':'').'
+			$this->doc->styleSheetFile2 = PATH_txcategories_rel.'res/stylesheet.css';
+			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.'contrib/prototype/prototype.js"></script>';
+			$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.'tree.js"></script>';
+			
+			$this->doc->JScode .= $this->doc->wrapScriptTags('
 				// setting prefs for pagetree and drag & drop
 				Tree.thisScript    = "index.php";
-				Tree.additionalParams = "'.$getparams.'";
 			');	
-			
-			$this->doc->inDocStylesArray['mod_browsecat'] = '
-			
-				BODY{background-color:#ffffff;}
-				UL.tree { list-style: none; margin: 0 0 10px 0; padding: 0; }
-				UL.tree A		{ text-decoration: none; }
-				UL.tree A.pm	{ cursor: pointer; }
-				UL.tree IMG		{ vertical-align: middle; }
-				UL.tree UL		{ list-style: none; margin: 0; padding: 0; padding-left: 17px; }
-				UL.tree UL LI	{ list-style: none; margin: 0; padding: 0; line-height: 10px; white-space: nowrap; }
-				UL.tree UL LI.expanded UL	{ background: transparent url(\'../../../../typo3/gfx/ol/line.gif\') repeat-y top left; }
-				UL.tree UL LI.last		{ background: transparent url(\'../../../../typo3/gfx/ol/joinbottom.gif\') no-repeat top left; }
-				UL.tree UL LI.last > UL	{ background: none; }
-				UL.tree UL LI.active	{ background-color: #ebebeb !important; }
-				UL.tree UL LI.active UL	{ background-color: #f7f3ef; }
-				#dragIcon { z-index: 1; position: absolute; visibility: hidden; filter: alpha(opacity=50); -moz-opacity:0.5; opacity:0.5; white-space: nowrap; }			
-			
-			';
 		}			
-			
 	}
 	
 	

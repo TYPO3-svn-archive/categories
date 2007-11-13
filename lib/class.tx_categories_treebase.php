@@ -48,6 +48,10 @@ require_once(PATH_txcategories.'lib/class.tx_categories_db.php');
 
 class tx_categories_treebase extends t3lib_treeview {
 
+	var $additionalParams = '';
+	var $domIdPrefix = 'categories';
+	
+	
 	/**
 	 * Wrap the plus/minus icon in a link
 	 *
@@ -59,7 +63,7 @@ class tx_categories_treebase extends t3lib_treeview {
 	function PMiconATagWrap($icon, $cmd, $isExpand = true)	{
 		if ($this->thisScript) {
 				// activate dynamic ajax-based tree
-			$js = htmlspecialchars('Tree.load(\''.$cmd.'\', '.intval($isExpand).', this);');
+			$js = htmlspecialchars('Tree.load(\''.$cmd.$this->additionalParams.'\', '.intval($isExpand).', this);');
 			return '<a class="pm" onclick="'.$js.'">'.$icon.'</a>';
 		} else {
 			return $icon;
@@ -171,13 +175,13 @@ class tx_categories_treebase extends t3lib_treeview {
 	function getDataInit($parentId,$subCSSclass='') {
 				
 		return tx_categories_db::exec_SELECTquery_getChildren(
-																$parentId,
-																implode(',',$this->fieldArray),
-																	t3lib_BEfunc::deleteClause($this->table).
-																	t3lib_BEfunc::versioningPlaceholderClause($this->table).
-																	$this->clause,
-																$this->orderByFields
-															);
+							$parentId,
+							implode(',',$this->fieldArray),
+							t3lib_BEfunc::deleteClause($this->table).
+							t3lib_BEfunc::versioningPlaceholderClause($this->table).
+							$this->clause,
+							$this->orderByFields
+					);
 
 	}	
 

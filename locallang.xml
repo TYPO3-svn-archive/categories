@@ -19,7 +19,8 @@
 			<label index="last">Last</label>	
 			<label index="lookup_category_items_label">Lookup items</label>
 			<label index="createreference">Create reference</label>	
-			<label index="deletereference">Remove from '%s'</label>		
+			<label index="deletereference">Remove from '%s'</label>
+			<label index="go_to_list_module">Switch to Categories&gt;List module</label>			
 			<label index="confirmdeletefromcategory">
 Are you sure you wish to remove the record 
 from category '%s'?
