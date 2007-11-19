@@ -48,6 +48,10 @@ class tx_categories_tceform {
 	 * Hook used to transfer value to MM field with defVals
 	 */
 	function getMainFields_preProcess($table,&$row,$pObj){
+		
+		//if(isset($_POST['_savedoknew'])){
+		//	debug($_REQUEST);
+		//}
 
 		global $TYPO3_CONF_VARS,$TCA,$BE_USER;
 		
@@ -65,6 +69,8 @@ class tx_categories_tceform {
 				$cfield = tx_categories_div::getCategoryFieldName($table);
 
 				t3lib_div::loadTCA($table);
+				
+				//creating a fake category field
 				if(!isset($TCA[$table]['columns'][$cfield])){
 					include(PATH_txcategories.'tca/tx_categories_tca.inc');
 				}
@@ -73,29 +79,41 @@ class tx_categories_tceform {
 
 				if(strstr($row['uid'],'NEW')){
 					if($defVals = t3lib_div::_GP('defVals')){
-						
 						if(isset($defVals[$table][$cfield])){
 							$parents = t3lib_div::intExplode(',',$defVals[$table][$cfield]);
-							if(count($parents)){
-								$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-												'*',
-												$ctable,
-												'uid IN ('.implode(',',$parents).')'.
-												t3lib_BEfunc::deleteClause($ctable)
-											);
-											
-								$tmp = array();
-								while($tmprow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
-									$tmp[] = $tmprow['uid'].'|'.rawurlencode($tmprow['title']);						
-								}
-								if(count($tmp)){
-									$row[$cfield] = implode(',',$tmp);	
-								}
-							}
+						}
+					} elseif(
+						$table == $ctable && 
+						isset($_POST['_savedoknew_x']) && 
+						isset($_POST['data'][$table])
+					){
+						// if the 'Save document and create new' button has been pressed we would
+						// like to use the categories from the previous record
+						
+						$previous_record = current($_POST['data'][$table]);
+						if(isset($previous_record[$cfield])){
+							$parents = t3lib_div::intExplode(',',$previous_record[$cfield]);							
+						}
+						
+					}
+
+					if(count($parents)){
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+										'*',
+										$ctable,
+										'uid IN ('.implode(',',$parents).')'.
+										t3lib_BEfunc::deleteClause($ctable)
+									);
+									
+						$tmp = array();
+						while($tmprow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
+							$tmp[] = $tmprow['uid'].'|'.rawurlencode($tmprow['title']);						
+						}
+						if(count($tmp)){
+							$row[$cfield] = implode(',',$tmp);	
 						}
 					}
 				}	
-
 			}
 		}
 	}

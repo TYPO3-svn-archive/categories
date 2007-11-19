@@ -7,6 +7,8 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="mlang_tabs_tab">List</label>
+			<label index="mlang_labels_tablabel">Lists of database records in categories</label>
+			<label index="mlang_labels_tabdescr">The Categories>List module provides a categorized view of records</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -82,7 +82,7 @@ class  tx_categories_modfunc extends t3lib_SCbase {
 			$this->doc->JScode .= $CMparts[0];
 			$this->doc->postCode .= $CMparts[2];
 	
-			$headerSection = $this->doc->getHeader('tx_categories',$this->catinfo,$this->pageinfo['_thePath'],1).'<br />'.$LANG->sL('LLL:EXT:lang/locallang_core.xml:labels.path').': '.t3lib_div::fixed_lgd_pre($this->catinfo['_thePath'],50);
+			$headerSection = $this->doc->getHeader('tx_categories',$this->catinfo,$this->catinfo['_thePath'],1).'<br />'.$LANG->sL('LLL:EXT:lang/locallang_core.xml:labels.path').': '.t3lib_div::fixed_lgd_pre($this->catinfo['_thePath'],50);
 	
 			$this->content.=$this->doc->startPage($LANG->getLL('title'));
 			$this->content.=$this->doc->header($LANG->getLL('title'));

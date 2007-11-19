@@ -7,6 +7,8 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="mlang_tabs_tab">Info</label>
+			<label index="mlang_labels_tablabel">Category related information</label>
+			<label index="mlang_labels_tabdescr">This module contains special information about categories. This can e.g. be statistics for categories and records related to them</label>
 		</languageKey>
 	</data>
 </T3locallang>

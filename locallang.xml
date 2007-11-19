@@ -24,6 +24,7 @@
 			<label index="confirmdeletefromcategory">
 Are you sure you wish to remove the record 
 from category '%s'?
+NOTICE: This will not delete the record.
 			</label>		
 		</languageKey>
 		

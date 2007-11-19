@@ -30,7 +30,7 @@
  * @subpackage    tx_categories
  */
 
-require_once(PATH_txcategories.'lib/xmlparser.php');
+
 require_once(PATH_t3lib.'class.t3lib_scbase.php');
  
 class  tx_categories_import extends t3lib_SCbase {
@@ -42,43 +42,33 @@ class  tx_categories_import extends t3lib_SCbase {
 	* @return    void
 	*/
 	function init()    {
-		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
-		
-			// name might be set from outside
 		if (!$this->MCONF['name']) {
 			$this->MCONF = $GLOBALS['MCONF'];
 		}
+		$this->id = intval(t3lib_div::_GP('id'));
 		$this->CMD = t3lib_div::_GP('CMD');
 		$this->menuConfig();
-		$this->handleExternalFunctionValue('submodule');
-		
-		/*
-		if (t3lib_div::_GP('clear_all_cache'))    {
-			$this->include_once[] = PATH_t3lib.'class.t3lib_tcemain.php';
-		}
-		*/
+		$this->handleExternalFunctionValue();
 	}
 
+
 	/**
-	* Adds items to the ->MOD_MENU array. Used for the function menu selector.
-	*
-	* @return    void
-	*/
+	 * Adds items to the ->MOD_MENU array. Used for the function menu selector.
+	 *
+	 * @return    void
+	 */
 	function menuConfig()    {
 		global $LANG;
 		$this->MOD_MENU = Array (
-			'submodule' => Array (
-				'' => ''
+			'function' => Array (
+				'' => '',
 			)
 		);
-		$this->modTSconfig = t3lib_BEfunc::getModTSconfig($this->id,'mod.'.$this->MCONF['name']);
-		$this->MOD_MENU['submodule'] = $this->mergeExternalItems($this->MCONF['name'],'submodule',$this->MOD_MENU['submodule']);
-		$this->MOD_MENU['submodule'] = t3lib_BEfunc::unsetMenuItems($this->modTSconfig['properties'],$this->MOD_MENU['submodule'],'menu.submodule');
-		$this->MOD_SETTINGS = t3lib_BEfunc::getModuleData($this->MOD_MENU, t3lib_div::_GP('SET'), $this->MCONF['name'], $this->modMenu_type, $this->modMenu_dontValidateList, $this->modMenu_setDefaultList);
-		
-		//parent::menuConfig();
+		parent::menuConfig();
 	}
 
+
+	
 	/**
 	* Main function of the module. Write the content to $this->content
 	* If you chose "web" as main module, you will need to consider the $this->id parameter which will contain the uid-number of the page clicked in the page tree
@@ -88,9 +78,10 @@ class  tx_categories_import extends t3lib_SCbase {
 	function main()    {
 		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
 		
+		$this->catinfo = tx_categories_div::getCategoryInfo($this->id);
 		
 		// Draw the header.
-		$this->doc = t3lib_div::makeInstance('bigDoc');
+		$this->doc = t3lib_div::makeInstance('mediumDoc');
 		$this->doc->backPath = $BACK_PATH;
 		$this->doc->form='<form action="" method="POST">';
 		
@@ -106,25 +97,22 @@ class  tx_categories_import extends t3lib_SCbase {
 		$this->doc->postCode='
 			<script language="javascript" type="text/javascript">
 			script_ended = 1;
-			if (top.fsMod) top.fsMod.recentIds["web"] = 0;
 			</script>
 		';
+		
 
 		# It's very important that this called BEFORE you start 
 		# adding something to $this->content
 		# Otherwise some submodules may not work as expected
-		$modulecontent = $this->moduleContent();	
-		$this->content .= $this->getStartPageHTML();
+		# $this->disableOutput() may be called from a submodule
+		# It is then the responsibility of the submodule to
+		# echo out all the content of the module
 		
-		/*
-		 * Content from submodules
-		 * A submodule may have set the doPrintContent variable to FALSE
-		 * In that case it's the job of the submodule to output all the HTML
-		 */
-		$this->content .= $modulecontent;
-		$this->content .= $this->getEndPageHTML();
-	
-
+		$this->content .= $this->doc->sectionBegin();		
+		$this->extObjContent();
+		$this->content .= $this->doc->sectionEnd();		
+		
+		
 	}
 
 	/**
@@ -134,44 +122,13 @@ class  tx_categories_import extends t3lib_SCbase {
 	*/
 	function printContent()    {
 		if($this->doPrintContent){
-			echo $this->content;
+
+			$out  = $this->getStartPageHTML();
+			$out .= $this->content;
+			$out .= $this->getEndPageHTML();
+			echo $out;
+			
 		}
-	}
-
-
-	
-	/**
-	* Generates the module content
-	*
-	* @return    void
-	*/
-	function moduleContent()    {
-		
-	
-		global $BACK_PATH,$LANG;
-		
-		$content = '';
-		
-		//if(is_object($this->extObj)){
-		if($this->MOD_SETTINGS['submodule'] != ''){
-			if (is_callable(array($this->extObj, 'main'))){
-				$content = $this->extObj->main();
-			}
-		} else {
-
-			$out = array();	
-			if(count($this->MOD_MENU['submodule'])){
-				$out[] = $this->formatLocalizedStr($LANG->getLL('select_submodule'));				
-			} else {
-				$out[] = $this->formatLocalizedStr($LANG->getLL('no_importfunctions_installed'));
-			}
-			$out[] = t3lib_BEfunc::cshItem('_MOD_txcategoriesMain_txcategoriesImport', 'aboutimportmodule', $this->doc->backPath,'<hr/>|'.$LANG->getLL('about_import_module', 1));
-			$content = $this->doc->section($LANG->getLL('select_import_function_header'),implode("\n",$out),FALSE,TRUE);
-
-		}
-		$content .= $this->doc->sectionEnd();			
-		return $content;
-		
 	}
 	
 	
@@ -184,36 +141,29 @@ class  tx_categories_import extends t3lib_SCbase {
 	}
 				
 	
-	function formatLocalizedStr($str){
-
-		return nl2br(str_replace(
-				array(
-					'###ICON1###',	
-					'###ICON2###',	
-					'###ICON3###',						
-				),
-				array(
-					$this->doc->icons(1),
-					$this->doc->icons(2),
-					$this->doc->icons(3),						
-				),
-				$str	
-			));		
-		
-	}
-	
-	
 	function getStartPageHTML(){
 		global $LANG;
 		
 		$out = array();
 		$out[] = $this->doc->startPage($LANG->getLL('title'));
 		$out[] = $this->doc->header($LANG->getLL('title'));
+
+		
+		$headerSection = $this->doc->getHeader('tx_categories',$this->catinfo,$this->catinfo['_thePath'],1).'<br />'.$LANG->sL('LLL:EXT:lang/locallang_core.xml:labels.path').': '.t3lib_div::fixed_lgd_pre($this->catinfo['_thePath'],50);
+
+		
+		$out[] = $this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
 		$out[] = $this->doc->spacer(5);
-		if(count($this->MOD_MENU['submodule']) > 1) {
-			$out[] =  $this->doc->section('',$this->doc->funcMenu('hest',$LANG->getLL('select_wizard').t3lib_BEfunc::getFuncMenu($this->id,'SET[submodule]',$this->MOD_SETTINGS['submodule'],$this->MOD_MENU['submodule'])));
+
+		if(empty($this->MOD_MENU['function'])){
+			$out[] = $this->doc->icons(1);
+			$out[] = nl2br($LANG->getLL('no_submodules_available'));
+			
+			if(tx_categories_befunc::userHasAccessToModule('txcategoriesMain_txcategoriesList')){
+				$out[] = '<br /><br /><img'.t3lib_iconWorks::skinImg($this->doc->backPath, PATH_txcategories_rel.'gfx/list.gif', '').' style="text-align:center; vertical-align: middle; border:0;" /> <strong><a href="#" onclick="top.goToModule(\'txcategoriesMain_txcategoriesList\');this.blur();return false;">'.$LANG->getLL('go_to_list_module').'</a></strong>';
+			}
 		}
-		$out[] = $this->doc->divider(5);
+		$out[] = $this->doc->sectionEnd();
 		
 		return implode("\n",$out);
 		
@@ -222,7 +172,11 @@ class  tx_categories_import extends t3lib_SCbase {
 	function getEndPageHTML(){
 		global $LANG,$BE_USER;
 
-		$out = array();		
+		$out = array();	
+
+		$out[] = '<br /><br />';
+		$out[] = $this->doc->divider(1);
+		$out[] = t3lib_BEfunc::cshItem('_MOD_txcategoriesMain_txcategoriesImport', 'aboutimportmodule', $this->doc->backPath,'|'.$LANG->getLL('about_import_module', 1));
 		// ShortCut
 		if ($BE_USER->mayMakeShortcut())    {
 			$out[] = $this->doc->spacer(20).$this->doc->section('',$this->doc->makeShortcutIcon('id',implode(',',array_keys($this->MOD_MENU)),$this->MCONF['name']));

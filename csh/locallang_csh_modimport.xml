@@ -16,7 +16,6 @@
 			<label index="aboutimportmodule.description"><![CDATA[
 The import module is used to import and update category data. 
 
-This could e.g. come in handy if you would like to use the categories from a public taxonomy (such as the one provided by dmoz.org) instead of creating your own categories.
 
 <strong>For developers:</strong>
 The import module serves as a container for import / update wizards.

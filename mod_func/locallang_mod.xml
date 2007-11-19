@@ -7,6 +7,8 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="mlang_tabs_tab">Functions</label>
+			<label index="mlang_labels_tablabel">Advanced functions for categories</label>
+			<label index="mlang_labels_tabdescr">This module contains functions for manipulating the category tree. This can e.g. be functions to change the sorting of categories, wizards for creating many categories in one step etc.</label>
 		</languageKey>
 	</data>
 </T3locallang>

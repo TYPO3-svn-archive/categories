@@ -29,7 +29,9 @@ require_once('conf.php');
 require_once($BACK_PATH.'init.php');
 require_once($BACK_PATH.'template.php');
 require_once(t3lib_extMgm::extPath('categories').'mod_import/class.tx_categories_import.php');
+$LANG->includeLLFile('EXT:categories/locallang.xml');
 $LANG->includeLLFile('EXT:categories/mod_import/locallang.xml');
+
 //$BE_USER->modAccess($MCONF,1);    // This checks permissions and exits if the users has no permission for entry.
     // DEFAULT initialization of a module [END]
 
