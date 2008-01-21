@@ -5,7 +5,7 @@ define('TYPO3_MOD_PATH', '../typo3conf/ext/categories/mod_main/');
 $BACK_PATH='../../../../typo3/';
 $MCONF['name']='txcategoriesMain';
 $MCONF['defaultMod']='txcategoriesMain_txcategoriesList';
-$MCONF['navFrameScript'] = 'class.tx_categories_navframe.php';    
+$MCONF['navFrameScript'] = 'navframe.php';    
 $MCONF['access']='user,group';
 $MCONF['script']='index.php';
 

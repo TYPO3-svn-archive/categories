@@ -38,7 +38,7 @@ class tx_categories_recordlist extends localRecordList{
 	 * @param	integer		Limit of records to be listed.
 	 * @return	void
 	 */
-	function start($id,$table,$pointer,$search="",$levels="",$showLimit=0)	{
+	function start($id,$table,$pointer,$search="",$levels="",$showLimit=0,$path='')	{
 		global $TCA;
 
 			// Setting internal variables:
@@ -48,6 +48,7 @@ class tx_categories_recordlist extends localRecordList{
 		$this->searchString=trim($search);
 		$this->searchLevels=trim($levels);
 		$this->showLimit=t3lib_div::intInRange($showLimit,0,10000);
+		$this->path = trim($path);
 
 			// Setting GPvars:
 		$this->csvOutput = t3lib_div::_GP('csv') ? TRUE : FALSE;
@@ -73,6 +74,10 @@ class tx_categories_recordlist extends localRecordList{
 			// Set select levels:
 		$sL=intval($this->searchLevels);
 		$this->perms_clause = $GLOBALS['BE_USER']->getPagePermsClause(1);
+		
+		
+		
+		//debug($this->perms_clause);
 
 			// this will hide records from display - it has nothing todo with user rights!!
 		//if ($pidList = $GLOBALS['BE_USER']->getTSConfigVal('options.hideRecords.pages')) {
@@ -430,7 +435,7 @@ class tx_categories_recordlist extends localRecordList{
 		if($id == 0){	//display all available records that are not categorized
 			
 			$queryParts['SELECT'] = $this->searchLevels ? $queryParts['SELECT'] : $fieldList;	
-			$queryParts['FROM'] = $table.' LEFT JOIN '.$this->mm.' mm ON mm.localtable="'. $table .'" AND mm.uid_local='.$table.'.uid '.$this->getPagesJoinStmt($table);
+			$queryParts['FROM'] = $table.' LEFT JOIN '.$this->mm.' mm ON mm.localtable="'. $table .'" AND mm.uid_local='.$table.'.uid ';//.$this->getPagesJoinStmt($table);
 			$queryParts['WHERE'] = 	($this->searchLevels ? '1=1' : 'mm.uid_foreign IS NULL ').
 						t3lib_BEfunc::deleteClause($table).
 						t3lib_BEfunc::versioningPlaceholderClause($table).
@@ -549,6 +554,9 @@ class tx_categories_recordlist extends localRecordList{
 		$queryParts = $this->makeQueryArray($table, $id,$addWhere,$selFieldList);	// (API function from class.db_list.inc)
 		
 		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;			
+		
+		//debug($table);
+		
 		
 		$this->setTotalItems($queryParts);		// Finding the total amount of records on the page (API function from class.db_list.inc)
 
@@ -1462,6 +1470,7 @@ function jumpPagination(){
 	function listURL($altId='',$table=-1,$exclList='')	{
 		$url  = parent::listURL($altId,$table,$exclList);
 		$url .= ($this->firstElementNumber?'&pointer='.rawurlencode($this->firstElementNumber):'');
+		$url .= ($this->path?'&path='.$this->path.'_'.$altId:'');
 		return $url;
 	}	
 	

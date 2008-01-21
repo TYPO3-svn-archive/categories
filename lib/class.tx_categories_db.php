@@ -43,6 +43,7 @@ class tx_categories_db{
 
 	/**
 	 * Returns a resultset with the child categories for category with $uid
+	 * NOTICE: This method does not check for deleted or hidden records. 
 	 *
 	 * @param	integer		$uid: uid of the category
 	 * @param	string		$selectFields: fields to select
@@ -67,6 +68,7 @@ class tx_categories_db{
 	
 	/**
 	 * Returns the number of child categories for the category with $uid
+	 * NOTICE: This method does not check for deleted or hidden records. 	 
 	 *
 	 * @param	integer		$uid: uid of the category
 	 * @param	string		$andWhere: Additional SQL-filter - must start with ' AND' 

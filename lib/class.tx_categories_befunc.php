@@ -111,6 +111,10 @@ class tx_categories_befunc{
 			}
 			$BE_USER->groupData['categorymounts'] = t3lib_div::uniqueList($categorymounts);
 			
+			//if no mountpoint has been set for the current, she gets to see the whole category tree
+			if(!$BE_USER->isAdmin() && ($BE_USER->groupData['categorymounts'] == '')){
+				$BE_USER->groupData['categorymounts'] = '0';
+			}
 		}
 		
 		return (string)($BE_USER->groupData['categorymounts'])!='' ? explode(',',$BE_USER->groupData['categorymounts']) : Array();

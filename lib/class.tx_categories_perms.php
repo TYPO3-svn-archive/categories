@@ -60,10 +60,10 @@ class tx_categories_perms{
 		
 		while($uid > 0){
 			$res = $GLOBALS['TYPO3_DB']->execSELECTquery(
-											'tx_categories.*',
-											'tx_categories INNER JOIN tx_categories_mm mm ON mm.localtable="tx_categories" uid_foreign=tx_categories.uid AND uid_local='.$uid,
-											'1=1 '.t3lib_BEfunc::deleteClause('tx_categories')
-										);
+					'tx_categories.*',
+					'tx_categories INNER JOIN tx_categories_mm mm ON mm.localtable="tx_categories" uid_foreign=tx_categories.uid AND uid_local='.$uid,
+					'1=1 '.t3lib_BEfunc::deleteClause('tx_categories')
+				);
 		}
 	}
 	

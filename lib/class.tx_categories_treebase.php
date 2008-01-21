@@ -50,6 +50,7 @@ class tx_categories_treebase extends t3lib_treeview {
 
 	var $additionalParams = '';
 	var $domIdPrefix = 'categories';
+	var $ajaxStatus = false;
 	
 	
 	/**

@@ -96,6 +96,14 @@ $TYPO3_CONF_VARS['EXTCONF']['categories']['MM'] = 'tx_categories_mm';
 
 
 
+//TYPO3 version 4.2 stuff
+$TYPO3_CONF_VARS['BE']['AJAX']['tx_categories_navframe::expandCollapse'] = 'EXT:categories/mod_main/class.tx_categories_navframe.php:tx_categories_navframe->ajaxExpandCollapse';
+$TYPO3_CONF_VARS['BE']['AJAX']['tx_categories_selecttree::expandCollapse'] = 'EXT:categories/mod_browsecat/class.tx_categories_selecttree.php:tx_categories_selecttree->ajaxExpandCollapse';
+$TYPO3_CONF_VARS['BE']['AJAX']['tx_categories_modulepositionmap::expandCollapse'] = 'EXT:categories/mod_list/class.tx_categories_modulepositionmap.php:tx_categories_modulepositionmap->ajaxExpandCollapse';
+
+
+
+
 
 
 ?>

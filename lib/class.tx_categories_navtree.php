@@ -41,6 +41,7 @@ require_once(PATH_txcategories.'lib/class.tx_categories_treebase.php');
 class tx_categories_navtree extends tx_categories_treebase {
 
 	var $mm = '';		//name of table holding mm relations
+	var $ajaxCall = 0;
 
 	
 	/**
@@ -131,7 +132,7 @@ class tx_categories_navtree extends tx_categories_treebase {
 		$PM = t3lib_div::_GP('PM');
 		if(($PMpos = strpos($PM, '#')) !== false) { $PM = substr($PM, 0, $PMpos); }
 		$PM = explode('_', $PM);
-		if(($isAjaxCall = t3lib_div::_GP('ajax')) && is_array($PM) && count($PM)==4)	{
+		if($this->ajaxCall && is_array($PM) && count($PM)==4)	{
 			if($PM[1])	{
 				$expandedPageUid = $PM[2];
 				$ajaxOutput = '';
@@ -153,6 +154,7 @@ class tx_categories_navtree extends tx_categories_treebase {
 		foreach($treeArr as $k => $v)	{
 			$classAttr = $v['row']['_CSSCLASS'];
 			$uid	   = $v['row']['uid'];
+			$parent    = $v['parent'];
 			//$idAttr	= htmlspecialchars($this->domIdPrefix.$this->getId($v['row']).'_'.$v['bank']);
 			$idAttr	= htmlspecialchars($this->domIdPrefix.$this->getId($v['row']).'_'.$v['bank'].'_'.$v['path']);
 			
@@ -172,7 +174,7 @@ class tx_categories_navtree extends tx_categories_treebase {
 			$itemHTML .='
 				<li id="'.$idAttr.'"'.($classAttr ? ' class="'.$classAttr.'"' : '').'>'.
 					$v['HTML'].
-					$this->wrapTitle($this->getTitleStr($v['row'],$titleLen),$v['row'],$v['path'],$v['bank'])."\n";
+					$this->wrapTitle($this->getTitleStr($v['row'],$titleLen),$v['row'],$v['path'],$v['bank'],$parent)."\n";
 					//$this->wrapTitle($this->getTitleStr($v['row'],$titleLen),$v['row'],$v['bank'])."\n";
 
 
@@ -260,6 +262,7 @@ class tx_categories_navtree extends tx_categories_treebase {
 			
 			$newID = $row['uid']; 
 			
+			$newPath = $path.($path?'_':$uid.'_').$newID;
 
 			$this->tree[]=array();	  // Reserve space.
 			end($this->tree);
@@ -281,7 +284,8 @@ class tx_categories_navtree extends tx_categories_treebase {
 					$depth-1,
 					$blankLineCode.','.$LN,
 					$row['_SUBCSSCLASS'],
-					$path.$uid.'_'
+					//$path.$newID.'_'
+					$newPath		
 				);
 				if (count($this->buffer_idH)) { $idH[$row['uid']]['subrow']=$this->buffer_idH; }
 				$exp = 1; // Set "did expand" flag
@@ -307,9 +311,11 @@ class tx_categories_navtree extends tx_categories_treebase {
 				'blankLineCode'=> $blankLineCode,
 				'bank' => $this->bank,
 				'parent' => $uid,
-				'path' => $path
+				'path' => $newPath
 			);
 		}
+		
+
 
 		if($a) { $this->tree[$treeKey]['isLast'] = true; }
 
@@ -329,10 +335,47 @@ class tx_categories_navtree extends tx_categories_treebase {
 	 * @return	string
 	 * @access private
 	 */
+	 /*
 	function wrapTitle($title,$row,$path,$bank=0)	{
 		$aOnClick = 'return jumpTo(\''.$this->getJumpToParam($row).'\',this,\''.$this->domIdPrefix.$this->getId($row).'\','.$bank.',\''.($path ? $path : '').'\');';
 		return '<a href="#" onclick="'.htmlspecialchars($aOnClick).'">'.$title.'</a>';
-	}
+	}*/
+	
+	
+	/**
+	 * Wrapping $title in a-tags.
+	 *
+	 * @param	string		Title string
+	 * @param	string		Item record
+	 * @param	integer		Bank pointer (which mount point number)
+	 * @return	string
+	 * @access	private
+	 */
+	function wrapTitle($title,$row,$path,$bank=0,$parentId)	{
+		
+		global $TYPO3_CONF_VARS;
+		
+		$aOnClick = 'return jumpTo(\''.$this->getJumpToParam($row).'\',this,\''.$this->domIdPrefix.$this->getId($row).'\',\''.$bank.'\',\''.($path ? $path : '').'\');';
+		$CSM = '';
+		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['useOnContextMenuHandler'])	{
+			$CSM = ' oncontextmenu="'.htmlspecialchars(
+							$this->wrapClickMenuOnIcon(
+								'dummy',
+								$TYPO3_CONF_VARS['EXTCONF']['categories']['table'],
+								$row['uid'],
+								1,'&bank='.$this->bank.'&category='.$parentId.'&tree=1',
+								'',
+								TRUE
+							)
+						).'"';
+		}
+		$theCategoryTitle='<a href="#" onclick="'.htmlspecialchars($aOnClick).'"'.$CSM.'>'.$title.'</a>';
+
+			// Wrap title in a drag/drop span.
+		return '<span class="dragTitle" id="dragTitleID_'.$row['uid'].'">'.$theCategoryTitle.'</span>';
+	}	
+	
+	//$this->wrapClickMenuOnIcon($icon,$TYPO3_CONF_VARS['EXTCONF']['categories']['table'],$row['uid'],1,'&bank='.$this->bank.'&category='.$parentId.'&tree=1');
 	
 }
 

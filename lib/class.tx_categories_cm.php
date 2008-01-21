@@ -58,7 +58,12 @@ class tx_categories_cm {
 
 
 		$this->ctable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['table'];
-
+		
+		
+		//Handle dragn'drop
+		if($table == 'dragDrop_'.$this->ctable){
+			return $this->handleDragnDropOnCategories($backRef,$menuItems,$this->ctable,$uid);
+		}
 		
 		$this->category = t3lib_div::_GP('category');
 		
@@ -142,12 +147,45 @@ class tx_categories_cm {
 		return $menuItems;
 	}
 	
+	
+	
+	function handleDragnDropOnCategories($backRef,$menuItems,$table,$uid){
+		$srcId = $uid;		//the source category
+		$dstId = t3lib_div::_GP('dstId');
+		
+		//Doesn't make sense to drop the root
+		if($srcId == 0){
+			return array();	
+		}
+		
+		$this->category = $dstId;
+
+		$editOnClick = '';
+		$loc = 'top.content'.($backRef->listFrame && !$backRef->alwaysContentFrame ?'.list_frame':'');
+		if($GLOBALS['BE_USER']->jsConfirmation(2))	{
+			$conf = $loc.' && confirm('.$GLOBALS['LANG']->JScharCode('Add category as subcategory').')';
+		} else {
+			$conf = $loc;
+		}
+		$editOnClick = 'if('.$conf.'){'.$loc.'.location.href=top.TS.PATH_typo3+\''.$this->dragOntoCategoryUrl($table,$uid,0).'&redirect=\'+top.rawurlencode('.$backRef->frameLocation($loc.'.document').'); hideCM();}';
+
+		$menuItems['insertcategoryinto'] =  $backRef->linkItem(
+			'Insert into',
+			$backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($backRef->PH_backPath.PATH_txcategories_rel,'gfx/clip_pastesubref.gif','width="12" height="12"').' alt="" />'),
+			$editOnClick.'return false;'
+		);	
+		
+		
+		return $menuItems;
+		
+	}
+	
+	
 	function initClipBoard(){
 
 		$this->clipboardObj = t3lib_div::makeInstance('tx_categories_clipboard');
 		$this->clipboardObj->backPath = $GLOBALS['BACK_PATH'];
 		$this->clipboardObj->initializeClipboard();
-		//$this->t3libClipboardObj->lockToNormal();
 
 		$CB = t3lib_div::_GET('CB');
 		$this->clipboardObj->setCmd($CB);	
@@ -210,7 +248,14 @@ class tx_categories_cm {
 	}
 	
 	
-	
+	function dragOntoCategoryUrl($table,$uid,$setRedirect=1){
+		$rU = PATH_txcategories_rel.'tce_categories.php?'.
+			($setRedirect ? 'redirect='.rawurlencode(t3lib_div::linkThisScript(array('CB'=>''))) : '').
+			'&vC='.$GLOBALS['BE_USER']->veriCode().
+			'&prErr=1&uPT=1'.
+			'&data['.$table.']['.$uid.'][*]=+'.$this->category;			
+		return $rU;
+	}	
 	
 	function deleteUrl($table,$uid,$setRedirect=1){
 
@@ -219,9 +264,8 @@ class tx_categories_cm {
 			'&vC='.$GLOBALS['BE_USER']->veriCode().
 			'&prErr=1&uPT=1'.
 			'&data['.$table.']['.$uid.'][*]=-'.$this->category;			
-			
-
-		return $rU;		
+		return $rU;
+		
 	}	
 	
 	
@@ -233,7 +277,6 @@ class tx_categories_cm {
 			'&prErr=1&uPT=1'.
 			'&CB[paste]='.rawurlencode($table.'|'.$uid).
 			'&CB[pad]='.$this->clipboardObj->current;		
-			
 		return $rU;		
 	}
 	
@@ -305,7 +348,7 @@ class tx_categories_cm {
 
 
 	function DB_newrecordincategory($table,$uid){
-		$url = PATH_txcategories_rel."mod_newelement/index.php?id=".$uid;
+		$url = PATH_txcategories_rel."mod_list/newelement_wizard.php?id=".$uid;
 		return $this->backRef->linkItem(
                     'New',
                     $this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,'gfx/new_el.gif','width="11" height="12"').' />'),
@@ -398,7 +441,10 @@ class tx_categories_cm {
 			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,'gfx/zoom.gif','width="12" height="12"').' alt="" />'),
 			t3lib_BEfunc::viewOnClick($id,$this->backRef->PH_backPath,t3lib_BEfunc::BEgetRootLine($id),$anchor).'return hideCM();'
 		);
-	}	
+	}
+
+
+		
 	
 
 	/**

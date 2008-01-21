@@ -233,6 +233,14 @@ $TCA['tx_categories'] = array (
 				'default' => '0'
 			)
 		),
+		
+		'orig_id' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:categories/locallang_db.xml:tx_categories.orig_id',
+			'config' => array(
+				'type' => 'passthrough'			
+			)
+		)
 	),
 	'types' => array (
 		'0' => array('showitem' => 'title;;alias;;2-2-2,--palette--;;language;;,description;;advanced;;,synonyms;;;;3-3-3,media,--div--;LLL:EXT:categories/locallang_db.xml:tab_relations;;;,*,related')

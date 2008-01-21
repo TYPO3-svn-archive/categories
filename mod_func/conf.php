@@ -4,7 +4,7 @@
 define('TYPO3_MOD_PATH', '../typo3conf/ext/categories/mod_func/');
 $BACK_PATH='../../../../typo3/';
 $MCONF['name']='txcategoriesMain_txcategoriesFunc';
-$MCONF['navFrameScript'] = '../mod_main/class.tx_categories_navframe.php';
+$MCONF['navFrameScript'] = '../mod_main/navframe.php';
 $MCONF['access']='user,group';
 $MCONF['script']='index.php';
 $MLANG['default']['tabs_images']['tab'] = '../gfx/func.gif';

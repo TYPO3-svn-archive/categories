@@ -70,6 +70,7 @@ class  tx_categories_list extends t3lib_SCbase {
 
 			// GPvars:
 		$this->id = t3lib_div::_GP('id');
+		$this->path = t3lib_div::_GP('path');
 		$this->pointer = t3lib_div::_GP('pointer');
 		$this->imagemode = t3lib_div::_GP('imagemode');
 		$this->table = t3lib_div::_GP('table');
@@ -136,7 +137,9 @@ class  tx_categories_list extends t3lib_SCbase {
 	 function main()    {
 		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
 
-		$this->catinfo = tx_categories_div::getCategoryInfo($this->id);
+		//debug($_REQUEST);
+		
+		$this->catinfo = tx_categories_div::getCategoryInfo($this->id,$this->path);
 
 		// Draw the header.
 		$this->doc = t3lib_div::makeInstance('bigDoc');
@@ -214,7 +217,7 @@ class  tx_categories_list extends t3lib_SCbase {
 
 			// Initialize the listing object, dblist, for rendering the list:
 		$this->pointer = t3lib_div::intInRange($this->pointer,0,100000);
-		$dblist->start($this->id,$this->table,$this->pointer,$this->search_field,$this->search_levels,$this->showLimit);
+		$dblist->start($this->id,$this->table,$this->pointer,$this->search_field,$this->search_levels,$this->showLimit,$this->path);
 		$dblist->setDispFields();
 
 			// Render the page header:

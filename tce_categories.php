@@ -141,30 +141,63 @@ class tx_categories_tcedb {
 	
 	function convertDataMap($data){
 		
-		$mm = 'tx_categories_mm'; 
+		$mm = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['MM']; 
 
 		if(is_array($data)){
 			foreach($data as $tablename => $uids){
+				
+				
+				//getting category field for this table
+				$cField = tx_categories_div::getCategoryFieldName($tablename);
+				
 				foreach($uids as $uid => $fieldnames){
 					foreach($fieldnames as $fieldname => $value){
-						if($fieldname == '*' && $value <= 0){
+						if($fieldname == $cField){
 							
-							$category_to_remove = abs($value);
-							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-												'uid_foreign',
-												$mm,
-												'uid_local='.$uid.' AND localtable="'.$tablename.'" AND uid_foreign <> '.$category_to_remove
-											);
-							$categories = array();
-							while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
-								$categories[$row['uid_foreign']] = $row['uid_foreign'];
-							}	
-							$data[$tablename][$uid][$fieldname]=implode(",",$categories);
+							if(substr((string)$value,0,1)=='-'){
+								$categories_to_remove = t3lib_div::intExplode(',',substr((string)$value,1));
+								
+								$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+													'uid_foreign',
+													$mm,
+													'uid_local='.$uid.' AND localtable="'.$tablename.'" AND uid_foreign NOT IN('.implode(',',$categories_to_remove).')'
+												);
+								$categories = array();
+								while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
+									$categories[$row['uid_foreign']] = $row['uid_foreign'];
+								}
+								
+								$data[$tablename][$uid][$fieldname]=implode(",",$categories);
+
+							} elseif (substr((string)$value,0,1)=='+'){
+								
+								$categories_to_add = t3lib_div::intExplode(',',substr((string)$value,1));
+								
+								$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+													'uid_foreign',
+													$mm,
+													'uid_local='.$uid.' AND localtable="'.$tablename.'"'
+												);
+								$categories = array();
+
+								while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
+
+									$categories[$row['uid_foreign']] = $row['uid_foreign'];
+
+								}
+								
+								foreach($categories_to_add as $cuid){
+									$categories[$cuid] = $cuid;
+								}
+								$data[$tablename][$uid][$fieldname]=implode(",",$categories);
+							}							
 						}
 					}
 				}
 			}
 		}
+		
+		//debug($data);
 
 		
 		return $data;

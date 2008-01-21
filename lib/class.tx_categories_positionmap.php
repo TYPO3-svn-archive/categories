@@ -113,7 +113,7 @@ class tx_categories_positionmap extends webPageTree{
 		$PM = t3lib_div::_GP('PM');
 		if(($PMpos = strpos($PM, '#')) !== false) { $PM = substr($PM, 0, $PMpos); }
 		$PM = explode('_', $PM);
-		if(($isAjaxCall = t3lib_div::_GP('ajax')) && is_array($PM) && count($PM)==4)	{
+		if($this->ajaxCall && is_array($PM) && count($PM)==4)	{
 			if($PM[1])	{
 				$expandedPageUid = $PM[2];
 				$ajaxOutput = '';
@@ -425,7 +425,7 @@ class tx_categories_positionmap extends webPageTree{
 				'&edit['.$GLOBALS['TYPO3_CONF_VARS']['SYS']['contentTable'].'][prev]=new&returnNewPageId=1'	:
 				''
 			).'&defVals=&defVals['.$table.']['.$cField.']='.$this->categoryId.'&returnEditConf=1';
-		$onClick = t3lib_BEfunc::editOnClick($params,$BACK_PATH,$this->returnUrl);
+		$onClick = t3lib_BEfunc::editOnClick($params,$this->backPath,$this->returnUrl);
 		return '<a href="#" onclick="'.htmlspecialchars($onClick).'" title="Create new record here">'.$code.'</a>';
 	}	
 

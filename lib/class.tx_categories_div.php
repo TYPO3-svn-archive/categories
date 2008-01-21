@@ -161,7 +161,7 @@ class tx_categories_div{
 	 * @param	integer		Title limit of Full title (typ. set to 1000 or so)
 	 * @return	mixed		Path of record (string) OR array with short/long title if $fullTitleLimit is set.
 	 */
-	function getCategoryPath($catUid, $clause='', $titleLimit=0, $fullTitleLimit=0)	{
+	function getCategoryPath($catUid, $clause='', $titleLimit=0, $fullTitleLimit=0,$path=NULL) {
 
 		$ctable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['table'];
 		$mm = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['MM'];
@@ -170,22 +170,51 @@ class tx_categories_div{
 
 		$loopCheck = 100;
 		$output = $fullOutput = '/';
-		while ($catUid!=0 && $loopCheck>0)	{
-			$loopCheck--;
+		
+		if(!is_null($path) && trim($path)){
+			
+			$path_segments = array_reverse(t3lib_div::trimExplode('_',$path,1));
+			
+			reset($path_segments);
+			
+			foreach($path_segments as $catUid){
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+							'uid,pid,title',
+							$ctable,
+							$ctable.'.uid='.intval($catUid).t3lib_BEfunc::deleteClause($ctable).
+								(strlen(trim($clause)) ? ' AND '.$clause : '')
+						);	
+				
+				if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
+			
+					$output = '/'.t3lib_div::fixed_lgd_cs(strip_tags($row['title']),$titleLimit).$output;
+					if ($fullTitleLimit)	$fullOutput = '/'.t3lib_div::fixed_lgd_cs(strip_tags($row['title']),$fullTitleLimit).$fullOutput;
+				
+				} else {
+					break;
+				}						
+			}
+			
 
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-						'uid,pid,title, mm.uid_foreign AS parent',
-						$ctable.' LEFT JOIN '.$mm.' mm ON mm.uid_local='.$ctable.'.uid AND mm.localtable="'.$ctable.'"',
-						$ctable.'.uid='.intval($catUid).t3lib_BEfunc::deleteClause($ctable).
-							(strlen(trim($clause)) ? ' AND '.$clause : '')
-					);
-					
-			if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
-				$catUid = $row['parent'];
-				$output = '/'.t3lib_div::fixed_lgd_cs(strip_tags($row['title']),$titleLimit).$output;
-				if ($fullTitleLimit)	$fullOutput = '/'.t3lib_div::fixed_lgd_cs(strip_tags($row['title']),$fullTitleLimit).$fullOutput;
-			} else {
-				break;
+		} else {
+		
+			while ($catUid!=0 && $loopCheck>0)	{
+				$loopCheck--;
+	
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+							'uid,pid,title, mm.uid_foreign AS parent',
+							$ctable.' LEFT JOIN '.$mm.' mm ON mm.uid_local='.$ctable.'.uid AND mm.localtable="'.$ctable.'"',
+							$ctable.'.uid='.intval($catUid).t3lib_BEfunc::deleteClause($ctable).
+								(strlen(trim($clause)) ? ' AND '.$clause : '')
+						);
+						
+				if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
+					$catUid = $row['parent'];
+					$output = '/'.t3lib_div::fixed_lgd_cs(strip_tags($row['title']),$titleLimit).$output;
+					if ($fullTitleLimit)	$fullOutput = '/'.t3lib_div::fixed_lgd_cs(strip_tags($row['title']),$fullTitleLimit).$fullOutput;
+				} else {
+					break;
+				}
 			}
 		}
 
@@ -217,7 +246,7 @@ class tx_categories_div{
 	 * @param	integer		$uid:uid of the tx_categories record
 	 * @return	array		array with info about the category
 	 */
-	function getCategoryInfo($uid){
+	function getCategoryInfo($uid,$path=NULL){
 		$catinfo = array();
 		
 		$ctable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['table'];		
@@ -227,7 +256,7 @@ class tx_categories_div{
 			
 			if($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)){
 				$catinfo = $row;
-				list($catinfo['_thePath'],$catinfo['_thePathFull'])  = tx_categories_div::getCategoryPath($uid,'',30,1000);
+				list($catinfo['_thePath'],$catinfo['_thePathFull'])  = tx_categories_div::getCategoryPath($uid,'',30,1000,$path);
 			}
 		}
 		return $catinfo;
@@ -320,9 +349,12 @@ class tx_categories_div{
 		
 		global $TCA;
 		
+		
+		return TRUE;
+		
 		//if the table is the category table, we return immediately. 
 		if($table == $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['table']) return TRUE;
-		
+		if(!isset($TCA[$table])) return FALSE;
 		if($TCA[$table]['ctrl']['EXT']['categories']['exclude']) return FALSE;
 
 		return TRUE;		

@@ -155,7 +155,7 @@ class tx_categories_treeview extends tx_categories_treebase {
 		$PM = t3lib_div::_GP('PM');
 		if(($PMpos = strpos($PM, '#')) !== false) { $PM = substr($PM, 0, $PMpos); }
 		$PM = explode('_', $PM);
-		if(($isAjaxCall = t3lib_div::_GP('ajax')) && is_array($PM) && count($PM)==4)	{
+		if($this->ajaxCall && is_array($PM) && count($PM)==4)	{
 			if($PM[1])	{
 				$expandedPageUid = $PM[2];
 				$ajaxOutput = '';
