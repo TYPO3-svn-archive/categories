@@ -273,7 +273,7 @@ class tx_categories_div{
 	function getPid() {
 	 	static $pid = 0;
 
-		if(!$pid AND is_object($GLOBALS['TYPO3_DB'])) {
+		if(!$pid && is_object($GLOBALS['TYPO3_DB']) && $GLOBALS['TYPO3_DB']->link) {
 
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'pages', 'doktype=254 and module="categories" AND deleted=0');
 			if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))    {                
