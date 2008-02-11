@@ -21,6 +21,7 @@ CREATE TABLE tx_categories (
 	related int(11) DEFAULT '0' NOT NULL,
 	php_tree_stop tinyint(4) DEFAULT '0' NOT NULL,
 	orig_id tinytext NOT NULL,
+	fe_group varchar(100) DEFAULT '0' NOT NULL,
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );

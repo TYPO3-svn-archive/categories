@@ -21,6 +21,8 @@
 			<label index="related.description">Select related categories. Use this to create non-hierarchial references to other categories</label>
 			<label index="php_tree_stop.description">Stops backend rendering of the category tree in navigation and lists.</label>
 			<label index="editlock.description">If set, non-Admin users cannot edit the category</label>
+			<label index="fe_group.description">If 'Access' is set to a usergroup name, only website users which are members of the selected usergroup will be able to view the category record when they are logged in. The special option 'Hide at login' means the category will not be visible for website users that are logged in. Likewise "Show at login" will make the category visible for any logged in frontend user.</label>			
+			<label index="fe_group.details">IMPORTANT NOTICE: Setting a usergroup for a category does not influence the access to the records that are tagged with the category.</label>
 		</languageKey>
 	</data>
 	<orig_hash type="array">

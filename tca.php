@@ -57,6 +57,22 @@ $TCA['tx_categories'] = array (
 				'default' => '0'
 			)
 		),
+		'fe_group' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
+			'config' => array(
+				'type' => 'select',
+				'size' => 5,
+				'maxitems' => 20,
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login',-1),
+					array('LLL:EXT:lang/locallang_general.php:LGL.any_login',-2),
+					array('LLL:EXT:lang/locallang_general.php:LGL.usergroups','--div--')				
+				),
+				'exclusiveKeys' => '-1,-2',
+				'foreign_table' => 'fe_groups'
+			)
+		),		
 		'title' => Array (		
 			'exclude' => 0,		
 			'label' => 'LLL:EXT:categories/locallang_db.xml:tx_categories.title',		
@@ -243,7 +259,7 @@ $TCA['tx_categories'] = array (
 		)
 	),
 	'types' => array (
-		'0' => array('showitem' => 'title;;alias;;2-2-2,--palette--;;language;;,description;;advanced;;,synonyms;;;;3-3-3,media,--div--;LLL:EXT:categories/locallang_db.xml:tab_relations;;;,*,related')
+		'0' => array('showitem' => 'title;;alias;;2-2-2,--palette--;;language;;,description;;advanced;;,synonyms;;;;3-3-3,media,--div--;LLL:EXT:categories/locallang_db.xml:tab_relations;;;,*,related,fe_group')
 	),
 	'palettes' => array (
 		'alias' => array('showitem' => 'hidden,alias'),
