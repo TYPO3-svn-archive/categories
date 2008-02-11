@@ -89,7 +89,7 @@ class tx_categories_selecttree{
 
 		$this->doc->styleSheetFile2 = PATH_txcategories_rel.'res/stylesheet.css';
 		$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.'contrib/prototype/prototype.js"></script>';
-		$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.'tree.js"></script>';
+		$this->doc->JScode .= '<script type="text/javascript" src="'.$this->doc->backPath.(t3lib_div::compat_version('4.2')?'js/':'').'tree.js"></script>';
 		
 		$ajaxScript = $this->backPath.'ajax.php';
 

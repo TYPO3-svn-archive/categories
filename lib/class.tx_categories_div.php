@@ -348,9 +348,7 @@ class tx_categories_div{
 	function isTableAllowedForCategorization($table){
 		
 		global $TCA;
-		
-		
-		return TRUE;
+
 		
 		//if the table is the category table, we return immediately. 
 		if($table == $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['categories']['table']) return TRUE;

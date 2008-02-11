@@ -118,7 +118,7 @@ class tx_categories_modulepositionmap extends t3lib_SCbase{
 			// Adding javascript code for AJAX (prototype), drag&drop and the pagetree
 		$this->doc->JScode  = '
 		<script type="text/javascript" src="'.$this->backPath.'contrib/prototype/prototype.js"></script>
-		<script type="text/javascript" src="'.$this->backPath.'tree.js"></script>'."\n";
+		<script type="text/javascript" src="'.$this->backPath.(t3lib_div::compat_version('4.2')?'js/':'').'tree.js"></script>'."\n";
 	
 		$ajaxScript = $this->backPath.'ajax.php';
 		

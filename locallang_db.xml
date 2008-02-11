@@ -17,7 +17,8 @@
 			<label index="tx_categories.related">Related categories</label>
 			<label index="tx_categories.media">Media</label>			
 			<label index="tx_categories.php_tree_stop">Stop category tree</label>	
-			<label index="tx_categories.orig_id">Original ID</label>					
+			<label index="tx_categories.orig_id">Original ID</label>
+			<label index="general.tx_categories">Categories</label>
 			<label index="pages.warning_on_no_categories_selected">You did not tag this page with any categories.
 You should always tag a page with at least one category.
 Are you sure you want to proceed?</label>
@@ -28,6 +29,7 @@ Are you sure you want to proceed?</label>
 			<label index="be_groups.tx_categories_mountpoints">Category Mounts</label>			
 			<label index="be_users.tx_categories_mountpoints">Category Mounts</label>			
 			<label index="tab_relations">Relations</label>	
+			
 		</languageKey>
 	</data>
 </T3locallang>

@@ -88,8 +88,7 @@ class tx_categories_navframe{
 			$ajaxScript = 'navframe.php';
 		} 
 			
-		
-		$this->doc->JScode .= '<script type="text/javascript" src="'.$this->backPath.'tree.js"></script>';
+		$this->doc->JScode .= '<script type="text/javascript" src="'.$this->backPath.(t3lib_div::compat_version('4.2')?'js/':'').'tree.js"></script>';
 							
 		$hlClass = 'active';
 		

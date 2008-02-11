@@ -16,7 +16,7 @@ $tempColumns = Array (
 		//'l10n_display' => 'defaultAsReadonly',
 		
 		
-		'label' => 'LLL:EXT:categories/locallang_db.xml:pages.tx_categories',		
+		'label' => 'LLL:EXT:categories/locallang_db.xml:general.tx_categories',		
 		'config' => Array (
 			'type' => 'select',	
 			'foreign_table' => 'tx_categories',	
