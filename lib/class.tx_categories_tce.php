@@ -285,7 +285,9 @@ class tx_categories_tce{
 
 var $j = jQuery.noConflict();
 $j(function($) {
-	$j("input[@name=\''.$PA['itemFormElName'].'_suggest\']").filterCombo("http://" + top.location.host + "/'.PATH_txcategories_siterel.'mod_freevoc/index.php","select[@name=\''.$PA['itemFormElName'].'_sel\']", {cacheLength:100});
+	//$j("input[@name=\''.$PA['itemFormElName'].'_suggest\']").filterCombo("http://" + top.location.host + "/'.PATH_txcategories_rel.'mod_freevoc/index.php","select[@name=\''.$PA['itemFormElName'].'_sel\']", {cacheLength:100});
+	$j("input[@name=\''.$PA['itemFormElName'].'_suggest\']").filterCombo("'.PATH_txcategories_rel.'mod_freevoc/index.php","select[@name=\''.$PA['itemFormElName'].'_sel\']", {cacheLength:100});
+
 })
 </script>';			
 			
