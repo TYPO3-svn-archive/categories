@@ -143,6 +143,7 @@ class  tx_categories_list extends t3lib_SCbase {
 
 		// Draw the header.
 		$this->doc = t3lib_div::makeInstance('template');
+		$this->doc->docType='xhtml_trans';
 		$this->doc->backPath = $BACK_PATH;
 		
 			// Initialize the dblist object:
